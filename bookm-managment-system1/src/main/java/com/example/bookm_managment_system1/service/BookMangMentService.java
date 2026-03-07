@@ -23,4 +23,29 @@ public class BookMangMentService {
         }
         return  optionalBook.get();
     }
+
+    public Book updateBookById(int id, Book book) {
+        Optional<Book> optionalBook=bookRepository.findById(id);
+        if(optionalBook.isEmpty()){
+            throw new RuntimeException("there is no book by the id");
+        }
+            Book existBook=optionalBook.get();
+            existBook.setTitle(book.getTitle());
+            existBook.setAuthor(book.getAuthor());
+            existBook.setCopiesSold(book.getCopiesSold());
+
+
+        return  bookRepository.save(existBook);
+
+    }
+
+    public Book deleteById(int id) {
+        Optional<Book> optionalBook=bookRepository.findById(id);
+        if(optionalBook.isEmpty()){
+            throw new RuntimeException("there is no book by this id");
+        }
+        Book deleteBook=optionalBook.get();
+        bookRepository.delete(deleteBook);
+        return  deleteBook;
+    }
 }
